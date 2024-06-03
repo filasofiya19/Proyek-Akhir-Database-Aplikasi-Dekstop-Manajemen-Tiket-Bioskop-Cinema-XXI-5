@@ -1,0 +1,360 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package tiketonline;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+/**
+ *
+ * @author fila sofiyati
+ */
+public class RiwayatPembelian extends javax.swing.JFrame {
+        Connection conn=null;
+        ResultSet rs=null;
+        PreparedStatement pst=null; 
+        private TiketBioskop tiketBioskop;
+
+    /**
+     * Creates new form RiwayatPembelian
+     */
+    public RiwayatPembelian() {
+        initComponents();
+        setTitle("Riwayat Pembelian");
+        this.setLocationRelativeTo(null);
+        loadRiwayatPembelian() ;
+        setDefaultCloseOperation(RiwayatPembelian.DISPOSE_ON_CLOSE);
+         tblRiwayat.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            int row = tblRiwayat.getSelectedRow();
+            TableModel model = tblRiwayat.getModel();
+
+            // Retrieve the data from the selected row
+            String film = model.getValueAt(row, 0).toString();
+            String tanggal = model.getValueAt(row, 1).toString();
+            String waktu = model.getValueAt(row, 2).toString();
+            int tiket3D = Integer.parseInt(model.getValueAt(row, 3).toString());
+            int tiket2D = Integer.parseInt(model.getValueAt(row, 4).toString());
+            String totalBayar = model.getValueAt(row, 5).toString();
+            String kursi1_3D = model.getValueAt(row, 6).toString();
+            String kursi2_3D = model.getValueAt(row, 7).toString();
+            String kursi1_2D = model.getValueAt(row, 8).toString();
+            String kursi2_2D = model.getValueAt(row, 9).toString();
+            String kodeBK = model.getValueAt(row, 10).toString();
+
+            // Display the retrieved data in the labels
+            lblFilm.setText(film);
+            lblTgl.setText(tanggal);
+            lblwkt.setText(waktu);
+            lbl3d.setText(String.valueOf(tiket3D)) ;
+            lbl2d.setText(String.valueOf(tiket2D));
+            lblTotalBayar.setText(totalBayar);
+            lblkur3d1.setText(kursi1_3D);
+            lblkur3d2.setText(kursi2_3D);
+            lblkur2d1.setText(kursi1_2D);
+            lblkur2d2.setText(kursi2_2D);
+            kode_bk.setText(kodeBK);
+        }
+    });
+    }
+    
+     private void loadRiwayatPembelian() {
+        try {
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("Film");
+            model.addColumn("Tanggal");
+            model.addColumn("Waktu");
+            model.addColumn("Tiket 3D");
+            model.addColumn("Tiket 2D");
+            model.addColumn("Total Bayar");
+            model.addColumn("Kursi 1 3D");
+            model.addColumn("Kursi 2 3D");
+            model.addColumn("Kursi 1 2D");
+            model.addColumn("Kursi 2 2D");
+            model.addColumn("Kode BK");
+           
+
+            String username = sesi.getUsername(); // Mendapatkan username dari sesi
+
+            String sql = "SELECT film, tanggal, waktu, tik_3D, tik_2D, total_bayar, kursi_1_3D, kursi_2_3D, kursi_1_2D, kursi_2_2D, Kode_bk FROM pembelian WHERE username = ?";
+            Connection conn = KoneksiDB.getKoneksi();
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, username);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String film = rs.getString("film");
+                String tanggal = rs.getString("tanggal");
+                String waktu = rs.getString("waktu");
+                int tiket3D = rs.getInt("tik_3D");
+                int tiket2D = rs.getInt("tik_2D");
+                String totalBayar = rs.getString("total_bayar");
+                String kursi1_3D = rs.getString("kursi_1_3D");
+                String kursi2_3D = rs.getString("kursi_2_3D");
+                String kursi1_2D = rs.getString("kursi_1_2D");
+                String kursi2_2D = rs.getString("kursi_2_2D");
+                String kodeBK = rs.getString("Kode_bk");
+               
+
+                model.addRow(new Object[] { film, tanggal, waktu, tiket3D, tiket2D, totalBayar, kursi1_3D, kursi2_3D, kursi1_2D, kursi2_2D, kodeBK});
+                
+            }
+
+            tblRiwayat.setModel(model);
+
+            // Tutup koneksi dan sumber daya
+            rs.close();
+            pst.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+    }
+
+public void setTiketBioskop(TiketBioskop tiketBioskop) {
+    this.tiketBioskop = tiketBioskop;
+}
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblRiwayat = new javax.swing.JTable();
+        Printtiket = new javax.swing.JPanel();
+        lblkur2d2 = new javax.swing.JLabel();
+        lblkur3d2 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        lblwkt = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        lblFilm = new javax.swing.JLabel();
+        lbl3d = new javax.swing.JLabel();
+        lblTgl = new javax.swing.JLabel();
+        lbl2d = new javax.swing.JLabel();
+        lblTotalBayar = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        lblkursi3d = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel19 = new javax.swing.JLabel();
+        kode_bk = new javax.swing.JLabel();
+        verif = new javax.swing.JLabel();
+        lblkur3d1 = new javax.swing.JLabel();
+        lblkur2d1 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel2.setBackground(new java.awt.Color(0, 0, 153));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 51, Short.MAX_VALUE)
+        );
+
+        tblRiwayat.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblRiwayat);
+
+        Printtiket.setBackground(new java.awt.Color(255, 255, 255));
+        Printtiket.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        Printtiket.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblkur2d2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblkur2d2.setText("-");
+        Printtiket.add(lblkur2d2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, 30, -1));
+
+        lblkur3d2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblkur3d2.setText("-");
+        Printtiket.add(lblkur3d2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 30, -1));
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel15.setText("Nama Film");
+        Printtiket.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, -1));
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel16.setText("Tiket Film 3 D | No. Kursi");
+        Printtiket.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
+
+        lblwkt.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblwkt.setText("-");
+        Printtiket.add(lblwkt, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 90, 60, -1));
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel13.setText("Tiket Film 2 D| No. Kursi");
+        Printtiket.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel14.setText("Tanggal dan Waktu");
+        Printtiket.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel11.setText("Total Bayar");
+        Printtiket.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
+
+        lblFilm.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblFilm.setText("-");
+        Printtiket.add(lblFilm, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 220, -1));
+
+        lbl3d.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbl3d.setText("-");
+        Printtiket.add(lbl3d, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, 30, -1));
+
+        lblTgl.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblTgl.setText("-");
+        Printtiket.add(lblTgl, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 70, -1));
+
+        lbl2d.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbl2d.setText("-");
+        Printtiket.add(lbl2d, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 30, -1));
+
+        lblTotalBayar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblTotalBayar.setText("-");
+        Printtiket.add(lblTotalBayar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 110, 103, -1));
+
+        jTextField1.setForeground(new java.awt.Color(51, 51, 51));
+        jTextField1.setText("     Gedung KWU UNNES, Cinema XXI 5, Sekaran, Kec. Gn. Pati, Jawa Tengah 50229");
+        jTextField1.setBorder(null);
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        Printtiket.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 450, 20));
+
+        lblkursi3d.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Desain lo.png"))); // NOI18N
+        lblkursi3d.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblkursi3dMouseClicked(evt);
+            }
+        });
+        Printtiket.add(lblkursi3d, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 320, 150));
+        Printtiket.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 780, -1));
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel19.setText("Kode Pemesanan");
+        Printtiket.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
+
+        kode_bk.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        kode_bk.setText("-");
+        Printtiket.add(kode_bk, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, 200, 20));
+        Printtiket.add(verif, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, -1, -1));
+
+        lblkur3d1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblkur3d1.setText("-");
+        Printtiket.add(lblkur3d1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 50, 30, -1));
+
+        lblkur2d1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblkur2d1.setText("-");
+        Printtiket.add(lblkur2d1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 30, -1));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 936, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(84, 84, 84)
+                .addComponent(Printtiket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(Printtiket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void lblkursi3dMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblkursi3dMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblkursi3dMouseClicked
+    
+    /**
+     * @param args the command line arguments
+     */
+    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Printtiket;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel kode_bk;
+    private javax.swing.JLabel lbl2d;
+    private javax.swing.JLabel lbl3d;
+    private javax.swing.JLabel lblFilm;
+    private javax.swing.JLabel lblTgl;
+    private javax.swing.JLabel lblTotalBayar;
+    private javax.swing.JLabel lblkur2d1;
+    private javax.swing.JLabel lblkur2d2;
+    private javax.swing.JLabel lblkur3d1;
+    private javax.swing.JLabel lblkur3d2;
+    private javax.swing.JLabel lblkursi3d;
+    private javax.swing.JLabel lblwkt;
+    private javax.swing.JTable tblRiwayat;
+    private javax.swing.JLabel verif;
+    // End of variables declaration//GEN-END:variables
+}
